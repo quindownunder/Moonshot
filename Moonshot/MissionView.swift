@@ -17,9 +17,11 @@ struct MissionView: View {
     
     let mission: Mission
     let astronauts: [CrewMember]
+    let missions: [Mission]
     
-    init(mission: Mission, astronauts: [Astronaut]) {
-       self.mission = mission
+    init(mission: Mission, astronauts: [Astronaut], missions: [Mission]) {
+        self.mission = mission
+        self.missions = missions
 
        var matches = [CrewMember]()
 
@@ -50,7 +52,7 @@ struct MissionView: View {
                     .padding()
                     
                     ForEach(self.astronauts, id: \.role) { crewMember in
-                        NavigationLink(destination: AstronautView(astronaut: crewMember.astronaut)) {
+                        NavigationLink(destination: AstronautView(astronaut: crewMember.astronaut, missions: self.missions)) {
                             HStack {
                                 Image(crewMember.astronaut.id)
                                 .resizable()
@@ -86,6 +88,7 @@ struct MissionView_Previews: PreviewProvider {
     static let astronauts: [Astronaut] = Bundle.main.decode("astronauts.json")
     
     static var previews: some View {
-        MissionView(mission: missions[0], astronauts: astronauts)
+        MissionView(mission: missions[0], astronauts: astronauts, missions: missions)
+    
     }
 }
